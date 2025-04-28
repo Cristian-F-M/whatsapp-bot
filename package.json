@@ -1,0 +1,25 @@
+{
+  "name": "whatsapp-bot",
+  "module": "index.ts",
+  "scripts": {
+    "dev": "bun --env-file=.env.local --watch index.ts"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "node-cron": "^3.0.3",
+    "puppeteer": "^24.7.2",
+    "qrcode-terminal": "^0.12.0",
+    "wa-sticker-formatter": "^4.4.4",
+    "whatsapp-web.js": "^1.27.0"
+  },
+  "trustedDependencies": [
+    "@biomejs/biome"
+  ]
+}
