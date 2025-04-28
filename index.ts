@@ -77,6 +77,27 @@ client.on('message', async (msg) => {
 	}
 })
 
+client.on('message_create', async (msg) => {
+	const { body, fromMe } = msg
+
+	if (!fromMe) return
+	if (!body.startsWith('!reels')) return
+
+	const commandSplited = body.split(' ')
+
+	if (commandSplited.length <= 1) return
+	const [command, value] = commandSplited
+
+	let number = null
+
+	try {
+		number = Number(value)
+		number = number > reelsStatus.maxReels ? reelsStatus.maxReels : number
+	} catch {}
+
+	if (number) reelsStatus.reelsCount = number
+})
+
 client.initialize()
 
 async function imageToSticker(msg: Message, media: MessageMedia) {
