@@ -8,15 +8,15 @@
   "type": "module",
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/fluent-ffmpeg": "^2.1.27",
+    "@types/node-cron": "^3.0.11",
+    "@types/qrcode-terminal": "^0.12.2"
   },
   "peerDependencies": {
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@types/fluent-ffmpeg": "^2.1.27",
-    "@types/node-cron": "^3.0.11",
-    "@types/qrcode-terminal": "^0.12.2",
     "node-cron": "^3.0.3",
     "puppeteer": "^24.7.2",
     "qrcode-terminal": "^0.12.0",
@@ -24,6 +24,8 @@
     "whatsapp-web.js": "^1.27.0"
   },
   "trustedDependencies": [
-    "@biomejs/biome"
+    "@biomejs/biome",
+    "puppeteer",
+    "sharp"
   ]
 }
