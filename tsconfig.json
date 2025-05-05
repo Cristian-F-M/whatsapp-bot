@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",          // Usar ES Modules
+    "target": "ESNext",          // Usar características modernas de JavaScript
+    "moduleResolution": "node",  // Resolver módulos de la misma forma que Node.js
+    "esModuleInterop": true,     // Habilitar la interoperabilidad con módulos CommonJS
+    "skipLibCheck": true,        // Evitar problemas con tipos en bibliotecas externas
+    "strict": true,              // Habilitar todas las comprobaciones estrictas
+    "allowJs": true              // Permitir archivos JavaScript en el proyecto
+  },
+  "include": ["index.ts"],         // O ajusta según la ubicación de tus archivos
+  "exclude": ["node_modules"]
+}
