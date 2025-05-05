@@ -18,9 +18,7 @@
   },
   "dependencies": {
     "node-cron": "^3.0.3",
-    "puppeteer": "^24.7.2",
     "qrcode-terminal": "^0.12.0",
-    "wa-sticker-formatter": "^4.4.4",
     "whatsapp-web.js": "^1.27.0"
   },
   "trustedDependencies": [
