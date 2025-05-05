@@ -96,7 +96,13 @@ client.on('message_create', async (msg) => {
 		number = number > reelsStatus.maxReels ? reelsStatus.maxReels : number
 	} catch {}
 
-	if (number) reelsStatus.reelsCount = number
+	if (!number) return
+	const chat = await msg.getChat()
+	reelsStatus.reelsCount = number
+	client.sendMessage(
+		chat.id._serialized,
+		`${reelsStatus.reelsCount}/${reelsStatus.maxReels}`,
+	)
 })
 
 client.initialize()
