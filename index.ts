@@ -57,24 +57,25 @@ client.on('message_create', async (msg) => {
 })
 
 client.on('message', async (msg) => {
+	const localReelsStatus = structuredClone(reelsStatus)
 	const { from } = msg
 
 	if (from !== `${REELS_FROM_NUMBER}@c.us`) return
-
 	const isReel = await getIsReel(msg)
-	if (isReel) {
-		if (reelsStatus.reelsCount >= reelsStatus.maxReels) {
-			msg.reply('🙂 Maximo de reels 🙂')
-		}
-		reelsStatus.reelsCount += 1
+	const isReelToday = isMessageToday(msg)
 
-		const chat = await msg.getChat()
-		const remainingReels = reelsStatus.maxReels - reelsStatus.reelsCount
-		client.sendMessage(
-			chat.id._serialized,
-			`Reels: ${reelsStatus.reelsCount}/${remainingReels}`,
-		)
+	if (!isReel || !isReelToday) return
+	if (reelsStatus.reelsCount >= reelsStatus.maxReels) {
+		msg.reply('🙂 Maximo de reels 🙂')
 	}
+	reelsStatus.reelsCount += 1
+
+	const chat = await msg.getChat()
+	const remainingReels = localReelsStatus.maxReels - localReelsStatus.reelsCount
+	client.sendMessage(
+		chat.id._serialized,
+		`Reels: ${reelsStatus.reelsCount}/${remainingReels}`,
+	)
 })
 
 client.on('message_create', async (msg) => {
