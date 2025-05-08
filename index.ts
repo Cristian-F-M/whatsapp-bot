@@ -31,7 +31,7 @@ const client = new Client({
 })
 
 client.on('qr', (qr) => {
-  console.log(qr)
+	console.log(qr)
 	qrcode.generate(qr, { small: true })
 })
 
@@ -56,7 +56,6 @@ client.on('message_create', async (msg) => {
 })
 
 client.on('message', async (msg) => {
-	const localReelsStatus = structuredClone(reelsStatus)
 	const { from } = msg
 
 	if (from !== `${REELS_FROM_NUMBER}@c.us`) return
@@ -70,10 +69,9 @@ client.on('message', async (msg) => {
 	reelsStatus.reelsCount += 1
 
 	const chat = await msg.getChat()
-	const remainingReels = localReelsStatus.maxReels - localReelsStatus.reelsCount
 	client.sendMessage(
 		chat.id._serialized,
-		`Reels: ${reelsStatus.reelsCount}/${remainingReels}`,
+		`Reels: ${reelsStatus.reelsCount}/${reelsStatus.maxReels}`,
 	)
 })
 
