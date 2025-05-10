@@ -2,8 +2,8 @@
   "name": "whatsapp-bot",
   "module": "index.ts",
   "scripts": {
-    "dev": "bun --env-file=.env.local --watch index.ts",
-    "start": "bun index.ts"
+    "dev": "bun --env-file=.env.local --watch app/index.ts",
+    "start": "bun app/index.ts"
   },
   "type": "module",
   "devDependencies": {
