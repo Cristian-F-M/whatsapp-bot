@@ -65,6 +65,7 @@ client.on('message', async (msg) => {
 	if (!isReel || !isReelToday) return
 	if (reelsStatus.reelsCount >= reelsStatus.maxReels) {
 		msg.reply('🙂 Maximo de reels 🙂')
+    return 
 	}
 	reelsStatus.reelsCount += 1
 
@@ -126,7 +127,7 @@ async function initTempDir() {
 }
 
 async function getIsReel(msg: Message) {
-	const regex = /(https:\/\/)?(www.)*facebook.com\/reel\/.+/
+	const regex = /(https:\/\/)?(www.)*facebook.com\/(reel|share)\/.+/
 
 	let { body } = msg
 
