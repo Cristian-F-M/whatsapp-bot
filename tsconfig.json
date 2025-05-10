@@ -8,6 +8,6 @@
     "strict": true,              // Habilitar todas las comprobaciones estrictas
     "allowJs": true              // Permitir archivos JavaScript en el proyecto
   },
-  "include": ["index.ts"],         // O ajusta según la ubicación de tus archivos
+  "include": ["app/index.ts"],         // O ajusta según la ubicación de tus archivos
   "exclude": ["node_modules"]
 }
