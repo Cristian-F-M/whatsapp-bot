@@ -12,12 +12,16 @@ const reelsStatus = {
 }
 
 const messages = [
-	'Ya te he dicho mil veces que no se pueden enviar más de 5 reels. ¿Es que no entiendes?',
-	'Esto ya está fuera de control. ¡Basta de enviar esos malditos reels!',
-	'¿Acaso soy tu cartero? Deja de enviar reels, ya es demasiado.',
-	'¡Cálmate y entiende de una vez por todas! Si sigues enviando reels, te vas a arrepentir.',
-	'Te lo estoy advirtiendo por última vez: Si sigues con esos malditos reels, no tendré otro remedio que bloquearte de una vez.',
+	'¿Eres imbécil o qué? ¡Ya te dije que no mandes más de 5 reels, pedazo de subnormal!',
+	'¡Me cago en todo, basta ya de tus putos reels de mierda! ¿No tienes nada mejor que hacer, gilipollas?',
+	'¿Te crees que soy tu puto esclavo? ¡Deja de enviarme esta basura o te reviento, inútil!',
+	'¡Que te den por el culo, capullo! Otro reel más y te juro que te arrepentirás de haber nacido.',
+	'Último aviso, hijo de puta: Si me llega UN MALDITO REEL MÁS, te bloqueo y te mando a la mierda para siempre, retrasado mental.',
+	'¡LA CONCHA DE TU MADRE, IMBÉCIL! ¿TAN DIFÍCIL ES ENTENDER QUE NO QUIERO TUS REELS DE MIERDA? ¡CHÚPAME LA PORONGA, IGNORANTE DE MIERDA!',
+	'¡NI UN REEL MÁS, CABRÓN! SI VUELVES A MANDAR ALGO, TE JURO QUE TE VOY A BUSCAR Y TE VOY A REVENTAR LA CARA, PEDAZO DE ESCORIA INMUNDA.',
 ]
+
+const messageLastIndex = messages.length - 1
 
 cron.schedule(
 	'0 0 * * *',
@@ -72,7 +76,8 @@ client.on('message', async (msg) => {
 
 	if (!isReel || !isReelToday) return
 	if (reelsStatus.reelsCount >= reelsStatus.maxReels) {
-		const messageIndex = reelsStatus.reelsCount - reelsStatus.maxReels
+		const index = reelsStatus.reelsCount - reelsStatus.maxReels + 1
+		const messageIndex = index > messageLastIndex ? messageLastIndex : index
 		const messageToSend = messages[messageIndex]
 		msg.reply(messageToSend)
 		return
@@ -106,10 +111,14 @@ client.on('message_create', async (msg) => {
 	if (!number) return
 	const chat = await msg.getChat()
 	reelsStatus.reelsCount = number
-	client.sendMessage(
+	const messageSent = await client.sendMessage(
 		chat.id._serialized,
 		`${reelsStatus.reelsCount}/${reelsStatus.maxReels}`,
 	)
+	const index = reelsStatus.reelsCount - reelsStatus.maxReels
+	const messageIndex = index > messageLastIndex ? messageLastIndex : index
+	const messageToSend = messages[messageIndex]
+	messageSent.reply(messageToSend)
 })
 
 client.initialize()
