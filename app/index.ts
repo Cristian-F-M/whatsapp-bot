@@ -127,7 +127,7 @@ async function initTempDir() {
 }
 
 async function getIsReel(msg: Message) {
-	const regex = /(https:\/\/)?(www.)*facebook.com\/(reel|share)\/.+/
+	const regex = /(https:\/\/)?(www.)?(facebook|instagram).com\/(reel|share)\/.+/
 
 	let { body } = msg
 
