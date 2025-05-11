@@ -11,6 +11,14 @@ const reelsStatus = {
 	maxReels: 5,
 }
 
+const messages = [
+	'Ya te he dicho mil veces que no se pueden enviar más de 5 reels. ¿Es que no entiendes?',
+	'Esto ya está fuera de control. ¡Basta de enviar esos malditos reels!',
+	'¿Acaso soy tu cartero? Deja de enviar reels, ya es demasiado.',
+	'¡Cálmate y entiende de una vez por todas! Si sigues enviando reels, te vas a arrepentir.',
+	'Te lo estoy advirtiendo por última vez: Si sigues con esos malditos reels, no tendré otro remedio que bloquearte de una vez.',
+]
+
 cron.schedule(
 	'0 0 * * *',
 	() => {
@@ -64,8 +72,10 @@ client.on('message', async (msg) => {
 
 	if (!isReel || !isReelToday) return
 	if (reelsStatus.reelsCount >= reelsStatus.maxReels) {
-		msg.reply('🙂 Maximo de reels 🙂')
-    return 
+		const messageIndex = reelsStatus.reelsCount - reelsStatus.maxReels
+		const messageToSend = messages[messageIndex]
+		msg.reply(messageToSend)
+		return
 	}
 	reelsStatus.reelsCount += 1
 
@@ -91,7 +101,6 @@ client.on('message_create', async (msg) => {
 
 	try {
 		number = Number(value)
-		number = number > reelsStatus.maxReels ? reelsStatus.maxReels : number
 	} catch {}
 
 	if (!number) return
