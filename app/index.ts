@@ -3,12 +3,19 @@ import type { Message, MessageMedia } from 'whatsapp-web.js'
 import qrcode from 'qrcode-terminal'
 import fs from 'node:fs'
 import cron from 'node-cron'
+import { server } from './server'
 
 const { REELS_FROM_NUMBER } = process.env
+
+const { app, socket } = server()
 
 const reelsStatus = {
 	reelsCount: 0,
 	maxReels: 5,
+}
+
+export const STATUS = {
+	active: false,
 }
 
 const messages = [
@@ -47,8 +54,15 @@ client.on('qr', (qr) => {
 	qrcode.generate(qr, { small: true })
 })
 
+client.on('auth_failure', () => {
+	STATUS.active = false
+	socket.emit('status', STATUS)
+})
+
 client.on('ready', async () => {
 	console.log('Bot listo!')
+	STATUS.active = true
+	socket.emit('status', STATUS)
 })
 
 client.on('message_create', async (msg) => {
@@ -75,14 +89,16 @@ client.on('message', async (msg) => {
 	const isReelToday = isMessageToday(msg)
 
 	if (!isReel || !isReelToday) return
-	if (reelsStatus.reelsCount >= reelsStatus.maxReels) {
-		const index = reelsStatus.reelsCount - reelsStatus.maxReels + 1
+
+	reelsStatus.reelsCount += 1
+
+	if (reelsStatus.reelsCount > reelsStatus.maxReels) {
+		const index = reelsStatus.reelsCount - reelsStatus.maxReels
 		const messageIndex = index > messageLastIndex ? messageLastIndex : index
 		const messageToSend = messages[messageIndex]
 		msg.reply(messageToSend)
 		return
 	}
-	reelsStatus.reelsCount += 1
 
 	const chat = await msg.getChat()
 	client.sendMessage(
@@ -115,10 +131,13 @@ client.on('message_create', async (msg) => {
 		chat.id._serialized,
 		`${reelsStatus.reelsCount}/${reelsStatus.maxReels}`,
 	)
-	const index = reelsStatus.reelsCount - reelsStatus.maxReels
-	const messageIndex = index > messageLastIndex ? messageLastIndex : index
-	const messageToSend = messages[messageIndex]
-	messageSent.reply(messageToSend)
+
+	if (number > reelsStatus.maxReels) {
+		const index = number - reelsStatus.maxReels
+		const messageIndex = index > messageLastIndex ? messageLastIndex : index
+		const messageToSend = messages[messageIndex]
+		messageSent.reply(messageToSend)
+	}
 })
 
 client.initialize()
