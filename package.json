@@ -3,12 +3,14 @@
   "module": "index.ts",
   "scripts": {
     "dev": "bun --env-file=.env.local --watch app/index.ts",
-    "start": "bun app/index.ts"
+    "start": "bun app/index.ts",
+    "dev:server": "bun --watch app/server.ts"
   },
   "type": "module",
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/bun": "latest",
+    "@types/express": "^5.0.2",
     "@types/fluent-ffmpeg": "^2.1.27",
     "@types/node-cron": "^3.0.11",
     "@types/qrcode-terminal": "^0.12.2"
@@ -17,9 +19,11 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "express": "^5.1.0",
     "node-cron": "^3.0.3",
     "puppeteer": "^24.8.0",
     "qrcode-terminal": "^0.12.0",
+    "socket.io": "^4.8.1",
     "whatsapp-web.js": "^1.27.0"
   },
   "trustedDependencies": [
